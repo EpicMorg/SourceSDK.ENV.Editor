@@ -260,6 +260,138 @@ namespace SourceSDK.ENV.Editor.UI
 
         #endregion
 
+        #region apply
+        private void applyVMod()
+        {
+            try
+            {
+                pictureBoxVMod.Image = Properties.Resources.wait;
+                Cursor.Current = Cursors.WaitCursor;
+                try
+                {
+                    Environment.SetEnvironmentVariable("VMod", textBoxVMod.Text, EnvironmentVariableTarget.User);
+                    checkVMod();
+                }
+                catch
+                {
+                    checkVMod();
+                }
+
+                MessageBox.Show("VMod successfully updated!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Cursor.Current = Cursors.Default;
+            }
+            catch
+            {
+                MessageBox.Show("Something went wrong and VMod was not successfully updated", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Cursor.Current = Cursors.Default;
+            }
+        }
+
+        private void applyVProject()
+        {
+            try
+            {
+                pictureBoxVProject.Image = Properties.Resources.wait;
+                Cursor.Current = Cursors.WaitCursor;
+                try
+                {
+                    Environment.SetEnvironmentVariable("VProject", textBoxVProject.Text, EnvironmentVariableTarget.User);
+                    checkVProject();
+                }
+                catch
+                {
+                    checkVProject();
+                }
+
+                MessageBox.Show("VProject successfully updated!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Cursor.Current = Cursors.Default;
+            }
+            catch
+            {
+                MessageBox.Show("Something went wrong and VProject was not successfully updated", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Cursor.Current = Cursors.Default;
+            }
+        }
+
+        private void applyVGame()
+        {
+            try
+            {
+                pictureBoxVGame.Image = Properties.Resources.wait;
+                Cursor.Current = Cursors.WaitCursor;
+                try
+                {
+                    Environment.SetEnvironmentVariable("VGame", textBoxVGame.Text, EnvironmentVariableTarget.User);
+                    checkVGame();
+                }
+                catch
+                {
+                    checkVGame();
+                }
+
+                MessageBox.Show("VGame successfully cleared updated!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Cursor.Current = Cursors.Default;
+            }
+            catch
+            {
+                MessageBox.Show("Something went wrong and VGame was not successfully updated", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Cursor.Current = Cursors.Default;
+            }
+        }
+
+        private void applyVContent()
+        {
+            try
+            {
+                pictureBoxVContent.Image = Properties.Resources.wait;
+                Cursor.Current = Cursors.WaitCursor;
+                try
+                {
+                    Environment.SetEnvironmentVariable("VContent", textBoxVContent.Text, EnvironmentVariableTarget.User);
+                    checkVContent();
+                }
+                catch
+                {
+                    checkVContent();
+                }
+
+                MessageBox.Show("VContent successfully updated!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Cursor.Current = Cursors.Default;
+            }
+            catch
+            {
+                MessageBox.Show("Something went wrong and VContent was not successfully updated", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Cursor.Current = Cursors.Default;
+            }
+        }
+
+        private void applyVTools()
+        {
+            try
+            {
+                pictureBoxVTools.Image = Properties.Resources.wait;
+                Cursor.Current = Cursors.WaitCursor;
+                try
+                {
+                    Environment.SetEnvironmentVariable("VTools", textBoxVTools.Text, EnvironmentVariableTarget.User);
+                    checkVTools();
+                }
+                catch
+                {
+                    checkVTools();
+                }
+
+                MessageBox.Show("VTools successfully cleared updated!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Cursor.Current = Cursors.Default;
+            }
+            catch
+            {
+                MessageBox.Show("Something went wrong and VTools was not successfully updated", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Cursor.Current = Cursors.Default;
+            }
+        }
+        #endregion
+
         #region btn-reset
         private void resetAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -309,7 +441,7 @@ namespace SourceSDK.ENV.Editor.UI
             }
         }
         #endregion
-
+            
         #region btn-browse
         private void buttonBrowseVProject_Click(object sender, EventArgs e)
         {
@@ -349,7 +481,7 @@ namespace SourceSDK.ENV.Editor.UI
         {
             if (MessageBox.Show("Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
             {
-                
+                applyVMod();
             }
         }
 
@@ -357,7 +489,7 @@ namespace SourceSDK.ENV.Editor.UI
         {
             if (MessageBox.Show("Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
             {
-
+                applyVProject();
             }
         }
 
@@ -365,7 +497,7 @@ namespace SourceSDK.ENV.Editor.UI
         {
             if (MessageBox.Show("Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
             {
-
+                applyVGame();
             }
         }
 
@@ -373,7 +505,7 @@ namespace SourceSDK.ENV.Editor.UI
         {
             if (MessageBox.Show("Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
             {
-
+                applyVContent();
             }
         }
 
@@ -381,11 +513,10 @@ namespace SourceSDK.ENV.Editor.UI
         {
             if (MessageBox.Show("Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
             {
-
+                applyVTools();
             }
         }
         #endregion
 
-    
     }
 }
