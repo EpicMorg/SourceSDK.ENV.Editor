@@ -17,6 +17,26 @@ namespace SourceSDK.ENV.Editor.UI
             InitializeComponent();
             this.Text = String.Format("{0} ({1})", Application.ProductName, Application.ProductVersion); ;
         }
+
+        private void FormMain_Load(object sender, EventArgs e)
+        {
+            checkAll();
+            folderBrowserDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); //set defaut directory
+        }
+        private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            checkAll();
+            MessageBox.Show("Information updated!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
         #region checks
         private void checkAll()
         {
@@ -240,23 +260,6 @@ namespace SourceSDK.ENV.Editor.UI
 
         #endregion
 
-        private void FormMain_Load(object sender, EventArgs e)
-        {
-            checkAll();
-            folderBrowserDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); //set defaut directory
-        }
-
-        private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            checkAll();
-            MessageBox.Show("Information updated!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
         #region btn-reset
         private void resetAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -340,5 +343,49 @@ namespace SourceSDK.ENV.Editor.UI
             }
         }
         #endregion
+
+        #region btn-apply
+        private void buttonApplyVMod_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+            {
+                
+            }
+        }
+
+        private void buttonApplyVProject_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+            {
+
+            }
+        }
+
+        private void buttonApplyVGame_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+            {
+
+            }
+        }
+
+        private void buttonApplyVContent_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+            {
+
+            }
+        }
+
+        private void buttonApplyVTools_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+            {
+
+            }
+        }
+        #endregion
+
+    
     }
 }

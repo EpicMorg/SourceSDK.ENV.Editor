@@ -145,8 +145,9 @@
             // 
             this.aboutToolStripMenuItem.Image = global::SourceSDK.ENV.Editor.Properties.Resources.about;
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // groupBoxVMod
             // 
@@ -181,6 +182,7 @@
             this.buttonApplyVMod.TabIndex = 2;
             this.toolTip.SetToolTip(this.buttonApplyVMod, "Apply");
             this.buttonApplyVMod.UseVisualStyleBackColor = true;
+            this.buttonApplyVMod.Click += new System.EventHandler(this.buttonApplyVMod_Click);
             // 
             // textBoxVMod
             // 
@@ -246,6 +248,7 @@
             this.buttonApplyVProject.TabIndex = 2;
             this.toolTip.SetToolTip(this.buttonApplyVProject, "Apply");
             this.buttonApplyVProject.UseVisualStyleBackColor = true;
+            this.buttonApplyVProject.Click += new System.EventHandler(this.buttonApplyVProject_Click);
             // 
             // textBoxVProject
             // 
@@ -311,6 +314,7 @@
             this.buttonApplyVGame.TabIndex = 2;
             this.toolTip.SetToolTip(this.buttonApplyVGame, "Apply");
             this.buttonApplyVGame.UseVisualStyleBackColor = true;
+            this.buttonApplyVGame.Click += new System.EventHandler(this.buttonApplyVGame_Click);
             // 
             // textBoxVGame
             // 
@@ -376,6 +380,7 @@
             this.buttonApplyVContent.TabIndex = 2;
             this.toolTip.SetToolTip(this.buttonApplyVContent, "Apply");
             this.buttonApplyVContent.UseVisualStyleBackColor = true;
+            this.buttonApplyVContent.Click += new System.EventHandler(this.buttonApplyVContent_Click);
             // 
             // textBoxVContent
             // 
@@ -441,6 +446,7 @@
             this.buttonApplyVTools.TabIndex = 2;
             this.toolTip.SetToolTip(this.buttonApplyVTools, "Apply");
             this.buttonApplyVTools.UseVisualStyleBackColor = true;
+            this.buttonApplyVTools.Click += new System.EventHandler(this.buttonApplyVTools_Click);
             // 
             // textBoxVTools
             // 
