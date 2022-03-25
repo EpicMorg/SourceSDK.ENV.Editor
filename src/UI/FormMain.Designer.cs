@@ -33,6 +33,8 @@
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,7 +61,7 @@
             this.buttonApplyVContent = new System.Windows.Forms.Button();
             this.textBoxVContent = new System.Windows.Forms.TextBox();
             this.pictureBoxVContent = new System.Windows.Forms.PictureBox();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.groupBoxVTools = new System.Windows.Forms.GroupBox();
             this.buttonBrowseVTools = new System.Windows.Forms.Button();
             this.buttonResetVTools = new System.Windows.Forms.Button();
             this.buttonApplyVTools = new System.Windows.Forms.Button();
@@ -75,7 +77,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxVGame)).BeginInit();
             this.groupBoxVContent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxVContent)).BeginInit();
-            this.groupBox5.SuspendLayout();
+            this.groupBoxVTools.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxVTools)).BeginInit();
             this.SuspendLayout();
             // 
@@ -94,6 +96,8 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.refreshToolStripMenuItem,
+            this.resetAllToolStripMenuItem,
+            this.toolStripSeparator1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -103,16 +107,30 @@
             // 
             this.refreshToolStripMenuItem.Image = global::SourceSDK.ENV.Editor.Properties.Resources.refresh16;
             this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.refreshToolStripMenuItem.Text = "Refresh";
             this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
             // 
+            // resetAllToolStripMenuItem
+            // 
+            this.resetAllToolStripMenuItem.Image = global::SourceSDK.ENV.Editor.Properties.Resources.power_on;
+            this.resetAllToolStripMenuItem.Name = "resetAllToolStripMenuItem";
+            this.resetAllToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.resetAllToolStripMenuItem.Text = "Reset all";
+            this.resetAllToolStripMenuItem.Click += new System.EventHandler(this.resetAllToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(114, 6);
+            // 
             // exitToolStripMenuItem
             // 
-            this.exitToolStripMenuItem.Image = global::SourceSDK.ENV.Editor.Properties.Resources.power_on;
+            this.exitToolStripMenuItem.Image = global::SourceSDK.ENV.Editor.Properties.Resources.arrows;
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -149,7 +167,9 @@
             this.buttonResetVMod.Name = "buttonResetVMod";
             this.buttonResetVMod.Size = new System.Drawing.Size(75, 23);
             this.buttonResetVMod.TabIndex = 2;
+            this.toolTip.SetToolTip(this.buttonResetVMod, "Reset");
             this.buttonResetVMod.UseVisualStyleBackColor = true;
+            this.buttonResetVMod.Click += new System.EventHandler(this.buttonResetVMod_Click);
             // 
             // buttonApplyVMod
             // 
@@ -158,7 +178,7 @@
             this.buttonApplyVMod.Name = "buttonApplyVMod";
             this.buttonApplyVMod.Size = new System.Drawing.Size(75, 23);
             this.buttonApplyVMod.TabIndex = 2;
-            this.toolTip.SetToolTip(this.buttonApplyVMod, "asdss");
+            this.toolTip.SetToolTip(this.buttonApplyVMod, "Apply");
             this.buttonApplyVMod.UseVisualStyleBackColor = true;
             // 
             // textBoxVMod
@@ -168,6 +188,7 @@
             this.textBoxVMod.PlaceholderText = "MyMod";
             this.textBoxVMod.Size = new System.Drawing.Size(595, 23);
             this.textBoxVMod.TabIndex = 1;
+            this.toolTip.SetToolTip(this.textBoxVMod, "Your sourcemod name");
             // 
             // pictureBoxVMod
             // 
@@ -200,6 +221,7 @@
             this.buttonBrowseVProject.Size = new System.Drawing.Size(75, 23);
             this.buttonBrowseVProject.TabIndex = 3;
             this.buttonBrowseVProject.Text = "...";
+            this.toolTip.SetToolTip(this.buttonBrowseVProject, "Browse");
             this.buttonBrowseVProject.UseVisualStyleBackColor = true;
             // 
             // buttonResetVProject
@@ -209,7 +231,9 @@
             this.buttonResetVProject.Name = "buttonResetVProject";
             this.buttonResetVProject.Size = new System.Drawing.Size(75, 23);
             this.buttonResetVProject.TabIndex = 2;
+            this.toolTip.SetToolTip(this.buttonResetVProject, "Reset");
             this.buttonResetVProject.UseVisualStyleBackColor = true;
+            this.buttonResetVProject.Click += new System.EventHandler(this.buttonResetVProject_Click);
             // 
             // buttonApplyVProject
             // 
@@ -218,6 +242,7 @@
             this.buttonApplyVProject.Name = "buttonApplyVProject";
             this.buttonApplyVProject.Size = new System.Drawing.Size(75, 23);
             this.buttonApplyVProject.TabIndex = 2;
+            this.toolTip.SetToolTip(this.buttonApplyVProject, "Apply");
             this.buttonApplyVProject.UseVisualStyleBackColor = true;
             // 
             // textBoxVProject
@@ -227,6 +252,7 @@
             this.textBoxVProject.PlaceholderText = "C:\\Program Files\\Steam\\steamapps\\sourcemods\\MyMod";
             this.textBoxVProject.Size = new System.Drawing.Size(514, 23);
             this.textBoxVProject.TabIndex = 1;
+            this.toolTip.SetToolTip(this.textBoxVProject, "Path to Your sourcemod folder");
             // 
             // pictureBoxVProject
             // 
@@ -259,6 +285,7 @@
             this.buttonBrowseVGame.Size = new System.Drawing.Size(75, 23);
             this.buttonBrowseVGame.TabIndex = 3;
             this.buttonBrowseVGame.Text = "...";
+            this.toolTip.SetToolTip(this.buttonBrowseVGame, "Browse");
             this.buttonBrowseVGame.UseVisualStyleBackColor = true;
             // 
             // buttonResetVGame
@@ -268,7 +295,9 @@
             this.buttonResetVGame.Name = "buttonResetVGame";
             this.buttonResetVGame.Size = new System.Drawing.Size(75, 23);
             this.buttonResetVGame.TabIndex = 2;
+            this.toolTip.SetToolTip(this.buttonResetVGame, "Reset");
             this.buttonResetVGame.UseVisualStyleBackColor = true;
+            this.buttonResetVGame.Click += new System.EventHandler(this.buttonResetVGame_Click);
             // 
             // buttonApplyVGame
             // 
@@ -277,6 +306,7 @@
             this.buttonApplyVGame.Name = "buttonApplyVGame";
             this.buttonApplyVGame.Size = new System.Drawing.Size(75, 23);
             this.buttonApplyVGame.TabIndex = 2;
+            this.toolTip.SetToolTip(this.buttonApplyVGame, "Apply");
             this.buttonApplyVGame.UseVisualStyleBackColor = true;
             // 
             // textBoxVGame
@@ -286,6 +316,7 @@
             this.textBoxVGame.PlaceholderText = "C:\\Program Files\\Steam\\steamapps\\common\\SourceFilmmaker\\game";
             this.textBoxVGame.Size = new System.Drawing.Size(514, 23);
             this.textBoxVGame.TabIndex = 1;
+            this.toolTip.SetToolTip(this.textBoxVGame, "Path to \"game \" folder");
             // 
             // pictureBoxVGame
             // 
@@ -318,6 +349,7 @@
             this.buttonBrowseVContent.Size = new System.Drawing.Size(75, 23);
             this.buttonBrowseVContent.TabIndex = 3;
             this.buttonBrowseVContent.Text = "...";
+            this.toolTip.SetToolTip(this.buttonBrowseVContent, "Browse");
             this.buttonBrowseVContent.UseVisualStyleBackColor = true;
             // 
             // buttonResetVContent
@@ -327,6 +359,7 @@
             this.buttonResetVContent.Name = "buttonResetVContent";
             this.buttonResetVContent.Size = new System.Drawing.Size(75, 23);
             this.buttonResetVContent.TabIndex = 2;
+            this.toolTip.SetToolTip(this.buttonResetVContent, "Reset");
             this.buttonResetVContent.UseVisualStyleBackColor = true;
             // 
             // buttonApplyVContent
@@ -336,6 +369,7 @@
             this.buttonApplyVContent.Name = "buttonApplyVContent";
             this.buttonApplyVContent.Size = new System.Drawing.Size(75, 23);
             this.buttonApplyVContent.TabIndex = 2;
+            this.toolTip.SetToolTip(this.buttonApplyVContent, "Apply");
             this.buttonApplyVContent.UseVisualStyleBackColor = true;
             // 
             // textBoxVContent
@@ -345,6 +379,7 @@
             this.textBoxVContent.PlaceholderText = "C:\\Program Files\\Steam\\steamapps\\common\\SourceFilmmaker\\content";
             this.textBoxVContent.Size = new System.Drawing.Size(514, 23);
             this.textBoxVContent.TabIndex = 1;
+            this.toolTip.SetToolTip(this.textBoxVContent, "Path to \"content \" folder");
             // 
             // pictureBoxVContent
             // 
@@ -356,19 +391,19 @@
             this.pictureBoxVContent.TabIndex = 0;
             this.pictureBoxVContent.TabStop = false;
             // 
-            // groupBox5
+            // groupBoxVTools
             // 
-            this.groupBox5.Controls.Add(this.buttonBrowseVTools);
-            this.groupBox5.Controls.Add(this.buttonResetVTools);
-            this.groupBox5.Controls.Add(this.buttonApplyVTools);
-            this.groupBox5.Controls.Add(this.textBoxVTools);
-            this.groupBox5.Controls.Add(this.pictureBoxVTools);
-            this.groupBox5.Location = new System.Drawing.Point(12, 399);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(629, 87);
-            this.groupBox5.TabIndex = 1;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "VTools (SFM)";
+            this.groupBoxVTools.Controls.Add(this.buttonBrowseVTools);
+            this.groupBoxVTools.Controls.Add(this.buttonResetVTools);
+            this.groupBoxVTools.Controls.Add(this.buttonApplyVTools);
+            this.groupBoxVTools.Controls.Add(this.textBoxVTools);
+            this.groupBoxVTools.Controls.Add(this.pictureBoxVTools);
+            this.groupBoxVTools.Location = new System.Drawing.Point(12, 399);
+            this.groupBoxVTools.Name = "groupBoxVTools";
+            this.groupBoxVTools.Size = new System.Drawing.Size(629, 87);
+            this.groupBoxVTools.TabIndex = 1;
+            this.groupBoxVTools.TabStop = false;
+            this.groupBoxVTools.Text = "VTools (SFM)";
             // 
             // buttonBrowseVTools
             // 
@@ -377,6 +412,7 @@
             this.buttonBrowseVTools.Size = new System.Drawing.Size(75, 23);
             this.buttonBrowseVTools.TabIndex = 3;
             this.buttonBrowseVTools.Text = "...";
+            this.toolTip.SetToolTip(this.buttonBrowseVTools, "Browse");
             this.buttonBrowseVTools.UseVisualStyleBackColor = true;
             // 
             // buttonResetVTools
@@ -386,6 +422,7 @@
             this.buttonResetVTools.Name = "buttonResetVTools";
             this.buttonResetVTools.Size = new System.Drawing.Size(75, 23);
             this.buttonResetVTools.TabIndex = 2;
+            this.toolTip.SetToolTip(this.buttonResetVTools, "Reset");
             this.buttonResetVTools.UseVisualStyleBackColor = true;
             // 
             // buttonApplyVTools
@@ -395,6 +432,7 @@
             this.buttonApplyVTools.Name = "buttonApplyVTools";
             this.buttonApplyVTools.Size = new System.Drawing.Size(75, 23);
             this.buttonApplyVTools.TabIndex = 2;
+            this.toolTip.SetToolTip(this.buttonApplyVTools, "Apply");
             this.buttonApplyVTools.UseVisualStyleBackColor = true;
             // 
             // textBoxVTools
@@ -404,6 +442,7 @@
             this.textBoxVTools.PlaceholderText = "C:\\Program Files\\Steam\\steamapps\\common\\SourceFilmmaker\\game\\sdktools";
             this.textBoxVTools.Size = new System.Drawing.Size(514, 23);
             this.textBoxVTools.TabIndex = 1;
+            this.toolTip.SetToolTip(this.textBoxVTools, "Path to \"sdktols \" folder");
             // 
             // pictureBoxVTools
             // 
@@ -420,7 +459,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(653, 502);
-            this.Controls.Add(this.groupBox5);
+            this.Controls.Add(this.groupBoxVTools);
             this.Controls.Add(this.groupBoxVContent);
             this.Controls.Add(this.groupBoxVGame);
             this.Controls.Add(this.groupBoxVProject);
@@ -450,8 +489,8 @@
             this.groupBoxVContent.ResumeLayout(false);
             this.groupBoxVContent.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxVContent)).EndInit();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
+            this.groupBoxVTools.ResumeLayout(false);
+            this.groupBoxVTools.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxVTools)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -489,12 +528,14 @@
         private Button buttonApplyVContent;
         private TextBox textBoxVContent;
         private PictureBox pictureBoxVContent;
-        private GroupBox groupBox5;
+        private GroupBox groupBoxVTools;
         private Button buttonBrowseVTools;
         private Button buttonResetVTools;
         private Button buttonApplyVTools;
         private TextBox textBoxVTools;
         private PictureBox pictureBoxVTools;
         private ToolTip toolTip;
+        private ToolStripMenuItem resetAllToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator1;
     }
 }
