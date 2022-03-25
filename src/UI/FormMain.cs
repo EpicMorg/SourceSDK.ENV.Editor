@@ -104,6 +104,8 @@ namespace SourceSDK.ENV.Editor.UI
             resetVMod();
             resetVProject();
             resetVGame();
+            resetVContent();
+            resetVTools();
         }
 
         private void resetVMod()
@@ -136,7 +138,7 @@ namespace SourceSDK.ENV.Editor.UI
         {
             try
             {
-                pictureBoxVMod.Image = Properties.Resources.wait;
+                pictureBoxVProject.Image = Properties.Resources.wait;
                 Cursor.Current = Cursors.WaitCursor;
                 try
                 {
@@ -162,7 +164,7 @@ namespace SourceSDK.ENV.Editor.UI
         {
             try
             {
-                pictureBoxVMod.Image = Properties.Resources.wait;
+                pictureBoxVGame.Image = Properties.Resources.wait;
                 Cursor.Current = Cursors.WaitCursor;
                 try
                 {
@@ -184,11 +186,64 @@ namespace SourceSDK.ENV.Editor.UI
             }
         }
 
+        private void resetVContent()
+        {
+            try
+            {
+                pictureBoxVContent.Image = Properties.Resources.wait;
+                Cursor.Current = Cursors.WaitCursor;
+                try
+                {
+                    Environment.SetEnvironmentVariable("VContent", null, EnvironmentVariableTarget.User);
+                    checkVContent();
+                }
+                catch
+                {
+                    checkVContent();
+                }
+
+                MessageBox.Show("VContent successfully cleared and Information updated!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Cursor.Current = Cursors.Default;
+            }
+            catch
+            {
+                MessageBox.Show("Something went wrong and VContent was not successfully deleted", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Cursor.Current = Cursors.Default;
+            }
+        }
+
+        private void resetVTools()
+        {
+            try
+            {
+                pictureBoxVTools.Image = Properties.Resources.wait;
+                Cursor.Current = Cursors.WaitCursor;
+                try
+                {
+                    Environment.SetEnvironmentVariable("VTools", null, EnvironmentVariableTarget.User);
+                    checkVTools();
+                }
+                catch
+                {
+                    checkVTools();
+                }
+
+                MessageBox.Show("VTools successfully cleared and Information updated!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Cursor.Current = Cursors.Default;
+            }
+            catch
+            {
+                MessageBox.Show("Something went wrong and VTools was not successfully deleted", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Cursor.Current = Cursors.Default;
+            }
+        }
+
         #endregion
 
         private void FormMain_Load(object sender, EventArgs e)
         {
             checkAll();
+            folderBrowserDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); //set defaut directory
         }
 
         private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
@@ -202,14 +257,14 @@ namespace SourceSDK.ENV.Editor.UI
             Application.Exit();
         }
 
+        #region btn-reset
         private void resetAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure to reset all envs?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+            if (MessageBox.Show("Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
             {
                 resetAll();
             }
         }
-
         private void buttonResetVMod_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
@@ -234,5 +289,56 @@ namespace SourceSDK.ENV.Editor.UI
                 resetVGame();
             }
         }
+
+        private void buttonResetVContent_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+            {
+                resetVContent();
+            }
+        }
+
+        private void buttonResetVTools_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+            {
+                resetVTools();
+            }
+        }
+        #endregion
+
+        #region btn-browse
+        private void buttonBrowseVProject_Click(object sender, EventArgs e)
+        {
+            if (folderBrowserDialog.ShowDialog()== DialogResult.OK)
+            {
+                textBoxVProject.Text = folderBrowserDialog.SelectedPath;
+            }
+        }
+
+        private void buttonBrowseVGame_Click(object sender, EventArgs e)
+        {
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            {
+                textBoxVGame.Text = folderBrowserDialog.SelectedPath;
+            }
+        }
+
+        private void buttonBrowseVContent_Click(object sender, EventArgs e)
+        {
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            {
+                textBoxVContent.Text = folderBrowserDialog.SelectedPath;
+            }
+        }
+
+        private void buttonBrowseVTools_Click(object sender, EventArgs e)
+        {
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            {
+                textBoxVTools.Text = folderBrowserDialog.SelectedPath;
+            }
+        }
+        #endregion
     }
 }

@@ -68,6 +68,7 @@
             this.textBoxVTools = new System.Windows.Forms.TextBox();
             this.pictureBoxVTools = new System.Windows.Forms.PictureBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.menuStrip.SuspendLayout();
             this.groupBoxVMod.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxVMod)).BeginInit();
@@ -216,13 +217,14 @@
             // 
             // buttonBrowseVProject
             // 
+            this.buttonBrowseVProject.Image = global::SourceSDK.ENV.Editor.Properties.Resources.open_folder;
             this.buttonBrowseVProject.Location = new System.Drawing.Point(548, 22);
             this.buttonBrowseVProject.Name = "buttonBrowseVProject";
             this.buttonBrowseVProject.Size = new System.Drawing.Size(75, 23);
             this.buttonBrowseVProject.TabIndex = 3;
-            this.buttonBrowseVProject.Text = "...";
             this.toolTip.SetToolTip(this.buttonBrowseVProject, "Browse");
             this.buttonBrowseVProject.UseVisualStyleBackColor = true;
+            this.buttonBrowseVProject.Click += new System.EventHandler(this.buttonBrowseVProject_Click);
             // 
             // buttonResetVProject
             // 
@@ -280,13 +282,14 @@
             // 
             // buttonBrowseVGame
             // 
+            this.buttonBrowseVGame.Image = global::SourceSDK.ENV.Editor.Properties.Resources.open_folder;
             this.buttonBrowseVGame.Location = new System.Drawing.Point(548, 22);
             this.buttonBrowseVGame.Name = "buttonBrowseVGame";
             this.buttonBrowseVGame.Size = new System.Drawing.Size(75, 23);
             this.buttonBrowseVGame.TabIndex = 3;
-            this.buttonBrowseVGame.Text = "...";
             this.toolTip.SetToolTip(this.buttonBrowseVGame, "Browse");
             this.buttonBrowseVGame.UseVisualStyleBackColor = true;
+            this.buttonBrowseVGame.Click += new System.EventHandler(this.buttonBrowseVGame_Click);
             // 
             // buttonResetVGame
             // 
@@ -344,13 +347,14 @@
             // 
             // buttonBrowseVContent
             // 
+            this.buttonBrowseVContent.Image = global::SourceSDK.ENV.Editor.Properties.Resources.open_folder;
             this.buttonBrowseVContent.Location = new System.Drawing.Point(548, 22);
             this.buttonBrowseVContent.Name = "buttonBrowseVContent";
             this.buttonBrowseVContent.Size = new System.Drawing.Size(75, 23);
             this.buttonBrowseVContent.TabIndex = 3;
-            this.buttonBrowseVContent.Text = "...";
             this.toolTip.SetToolTip(this.buttonBrowseVContent, "Browse");
             this.buttonBrowseVContent.UseVisualStyleBackColor = true;
+            this.buttonBrowseVContent.Click += new System.EventHandler(this.buttonBrowseVContent_Click);
             // 
             // buttonResetVContent
             // 
@@ -361,6 +365,7 @@
             this.buttonResetVContent.TabIndex = 2;
             this.toolTip.SetToolTip(this.buttonResetVContent, "Reset");
             this.buttonResetVContent.UseVisualStyleBackColor = true;
+            this.buttonResetVContent.Click += new System.EventHandler(this.buttonResetVContent_Click);
             // 
             // buttonApplyVContent
             // 
@@ -407,13 +412,14 @@
             // 
             // buttonBrowseVTools
             // 
+            this.buttonBrowseVTools.Image = global::SourceSDK.ENV.Editor.Properties.Resources.open_folder;
             this.buttonBrowseVTools.Location = new System.Drawing.Point(548, 22);
             this.buttonBrowseVTools.Name = "buttonBrowseVTools";
             this.buttonBrowseVTools.Size = new System.Drawing.Size(75, 23);
             this.buttonBrowseVTools.TabIndex = 3;
-            this.buttonBrowseVTools.Text = "...";
             this.toolTip.SetToolTip(this.buttonBrowseVTools, "Browse");
             this.buttonBrowseVTools.UseVisualStyleBackColor = true;
+            this.buttonBrowseVTools.Click += new System.EventHandler(this.buttonBrowseVTools_Click);
             // 
             // buttonResetVTools
             // 
@@ -421,9 +427,10 @@
             this.buttonResetVTools.Location = new System.Drawing.Point(467, 51);
             this.buttonResetVTools.Name = "buttonResetVTools";
             this.buttonResetVTools.Size = new System.Drawing.Size(75, 23);
-            this.buttonResetVTools.TabIndex = 2;
+            this.buttonResetVTools.TabIndex = 0;
             this.toolTip.SetToolTip(this.buttonResetVTools, "Reset");
             this.buttonResetVTools.UseVisualStyleBackColor = true;
+            this.buttonResetVTools.Click += new System.EventHandler(this.buttonResetVTools_Click);
             // 
             // buttonApplyVTools
             // 
@@ -453,6 +460,10 @@
             this.pictureBoxVTools.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBoxVTools.TabIndex = 0;
             this.pictureBoxVTools.TabStop = false;
+            // 
+            // folderBrowserDialog
+            // 
+            this.folderBrowserDialog.UseDescriptionForTitle = true;
             // 
             // FormMain
             // 
@@ -537,5 +548,6 @@
         private ToolTip toolTip;
         private ToolStripMenuItem resetAllToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator1;
+        private FolderBrowserDialog folderBrowserDialog;
     }
 }
