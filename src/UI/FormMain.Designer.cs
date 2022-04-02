@@ -70,6 +70,7 @@
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.darkStatusStrip = new DarkUI.Controls.DarkStatusStrip();
+            this.toolStripStatusLabelUpdateStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip.SuspendLayout();
             this.groupBoxVMod.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxVMod)).BeginInit();
@@ -81,6 +82,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxVContent)).BeginInit();
             this.groupBoxVTools.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxVTools)).BeginInit();
+            this.darkStatusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -505,6 +507,10 @@
             this.pictureBoxVTools.TabIndex = 0;
             this.pictureBoxVTools.TabStop = false;
             // 
+            // toolTip
+            // 
+            this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            // 
             // folderBrowserDialog
             // 
             this.folderBrowserDialog.UseDescriptionForTitle = true;
@@ -514,20 +520,35 @@
             this.darkStatusStrip.AutoSize = false;
             this.darkStatusStrip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.darkStatusStrip.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.darkStatusStrip.Location = new System.Drawing.Point(0, 496);
+            this.darkStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabelUpdateStatus});
+            this.darkStatusStrip.Location = new System.Drawing.Point(0, 502);
             this.darkStatusStrip.Name = "darkStatusStrip";
             this.darkStatusStrip.Padding = new System.Windows.Forms.Padding(0, 5, 0, 3);
-            this.darkStatusStrip.Size = new System.Drawing.Size(653, 24);
+            this.darkStatusStrip.Size = new System.Drawing.Size(653, 30);
             this.darkStatusStrip.SizingGrip = false;
             this.darkStatusStrip.TabIndex = 2;
-            this.darkStatusStrip.Text = "darkStatusStrip1";
+            this.darkStatusStrip.Text = "darkStatusStrip";
+            // 
+            // toolStripStatusLabelUpdateStatus
+            // 
+            this.toolStripStatusLabelUpdateStatus.ActiveLinkColor = System.Drawing.Color.LightCoral;
+            this.toolStripStatusLabelUpdateStatus.DoubleClickEnabled = true;
+            this.toolStripStatusLabelUpdateStatus.Image = global::SourceSDK.ENV.Editor.Properties.Resources.done;
+            this.toolStripStatusLabelUpdateStatus.IsLink = true;
+            this.toolStripStatusLabelUpdateStatus.LinkColor = System.Drawing.Color.WhiteSmoke;
+            this.toolStripStatusLabelUpdateStatus.Name = "toolStripStatusLabelUpdateStatus";
+            this.toolStripStatusLabelUpdateStatus.Size = new System.Drawing.Size(114, 17);
+            this.toolStripStatusLabelUpdateStatus.Text = "Check for update";
+            this.toolStripStatusLabelUpdateStatus.ToolTipText = "Update check";
+            this.toolStripStatusLabelUpdateStatus.Click += new System.EventHandler(this.toolStripStatusLabelUpdateStatus_Click);
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
-            this.ClientSize = new System.Drawing.Size(653, 520);
+            this.ClientSize = new System.Drawing.Size(653, 532);
             this.Controls.Add(this.darkStatusStrip);
             this.Controls.Add(this.groupBoxVTools);
             this.Controls.Add(this.groupBoxVContent);
@@ -535,6 +556,7 @@
             this.Controls.Add(this.groupBoxVProject);
             this.Controls.Add(this.groupBoxVMod);
             this.Controls.Add(this.menuStrip);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
@@ -561,6 +583,8 @@
             this.groupBoxVTools.ResumeLayout(false);
             this.groupBoxVTools.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxVTools)).EndInit();
+            this.darkStatusStrip.ResumeLayout(false);
+            this.darkStatusStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -607,5 +631,6 @@
         private FolderBrowserDialog folderBrowserDialog;
         private DarkUI.Controls.DarkMenuStrip menuStrip;
         private DarkUI.Controls.DarkStatusStrip darkStatusStrip;
+        private ToolStripStatusLabel toolStripStatusLabelUpdateStatus;
     }
 }
