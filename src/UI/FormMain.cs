@@ -15,7 +15,7 @@ namespace SourceSDK.ENV.Editor.UI
         public FormMain()
         {
             InitializeComponent();
-            this.Text = String.Format("{0} ({1})", Application.ProductName, Application.ProductVersion); ;
+            this.Text = String.Format("{0} ({1})", System.Windows.Forms.Application.ProductName, System.Windows.Forms.Application.ProductVersion); ;
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -34,7 +34,8 @@ namespace SourceSDK.ENV.Editor.UI
         }
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            FormAbout? frmAbout = new();
+            frmAbout.ShowDialog();
         }
 
         #region checks
