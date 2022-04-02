@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
+using DarkUI.Forms;
 using Octokit;
 
 namespace SourceSDK.ENV.Editor.UI
@@ -36,17 +37,17 @@ namespace SourceSDK.ENV.Editor.UI
             int versionComparison = localVersion.CompareTo(latestGitHubVersion);
             if (versionComparison < 0)
             {
-                MessageBox.Show("The version on GitHub is more up to date than this local release.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DarkUI.Forms.DarkMessageBox.ShowInformation("The version on GitHub is more up to date than this local release.", "Information",  DarkDialogButton.Ok);
                 //The version on GitHub is more up to date than this local release.
             }
             else if (versionComparison > 0)
             {
-                MessageBox.Show("This local version is greater than the release version on GitHub.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DarkUI.Forms.DarkMessageBox.ShowInformation("This local version is greater than the release version on GitHub.", "Information", DarkDialogButton.Ok);
                 //This local version is greater than the release version on GitHub.
             }
             else
             {
-                MessageBox.Show("This local Version and the Version on GitHub are equal.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DarkUI.Forms.DarkMessageBox.ShowInformation("This local Version and the Version on GitHub are equal.", "Information", DarkDialogButton.Ok);
                 //This local Version and the Version on GitHub are equal.
             }
         }
