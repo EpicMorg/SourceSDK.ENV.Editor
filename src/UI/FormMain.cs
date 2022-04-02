@@ -7,11 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Octokit;
+using DarkUI.Forms;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace SourceSDK.ENV.Editor.UI
 {
     public partial class FormMain : Form
     {
+        GitHubClient client = new GitHubClient(new ProductHeaderValue("SourceSDK.ENV.Editor"));
+        Version localVersion = new Version(System.Windows.Forms.Application.ProductVersion); //Replace this with your local version. Only tested with numeric values.
+      
+
         public FormMain()
         {
             InitializeComponent();
@@ -21,22 +29,107 @@ namespace SourceSDK.ENV.Editor.UI
         private void FormMain_Load(object sender, EventArgs e)
         {
             checkAll();
+            try  { SilentCheckGitHubNewerVersion(); } catch { }
             folderBrowserDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); //set defaut directory
         }
         private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
         {
             checkAll();
-            MessageBox.Show("Information updated!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            DarkUI.Forms.DarkMessageBox.ShowInformation("Information updated!", "Information", DarkDialogButton.Ok);
         }
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            System.Windows.Forms.Application.Exit();
         }
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormAbout? frmAbout = new();
             frmAbout.ShowDialog();
         }
+
+        #region update check
+        private async System.Threading.Tasks.Task SilentCheckGitHubNewerVersion() 
+        {
+            IReadOnlyList<Release> releases = await client.Repository.Release.GetAll("EpicMorg", "SourceSDK.ENV.Editor");
+            Version latestGitHubVersion = new Version(releases[0].TagName);
+            int versionComparison = localVersion.CompareTo(latestGitHubVersion);
+            if (versionComparison < 0)
+            {
+                toolStripStatusLabelUpdateStatus.Image = Properties.Resources.cancel;
+                toolStripStatusLabelUpdateStatus.Text = "New version avalible";
+                toolStripStatusLabelUpdateStatus.ToolTipText = "The version on GitHub is more up to date than this local release.";
+            }
+            else if (versionComparison > 0)
+            {
+                toolStripStatusLabelUpdateStatus.Image = Properties.Resources.wait;
+                toolStripStatusLabelUpdateStatus.Text = "This local version is greater";
+                toolStripStatusLabelUpdateStatus.ToolTipText ="This local version is greater than the release version on GitHub.";
+            }
+            else
+            {
+                toolStripStatusLabelUpdateStatus.Image = Properties.Resources.done;
+                toolStripStatusLabelUpdateStatus.Text = "This version is up to date";
+                toolStripStatusLabelUpdateStatus.ToolTipText = "This local Version and the Version on GitHub are equal.";
+            }
+        }
+        private async System.Threading.Tasks.Task CheckGitHubNewerVersion()
+        {
+            //Get all releases from GitHub
+            //Source: https://octokitnet.readthedocs.io/en/latest/getting-started/
+
+            IReadOnlyList<Release> releases = await client.Repository.Release.GetAll("EpicMorg", "SourceSDK.ENV.Editor");
+            //Setup the versions
+            Version latestGitHubVersion = new Version(releases[0].TagName);
+
+            //Compare the Versions
+            //Source: https://stackoverflow.com/questions/7568147/compare-version-numbers-without-using-split-function
+            int versionComparison = localVersion.CompareTo(latestGitHubVersion);
+
+            if (versionComparison < 0)
+            {
+                if (DarkUI.Forms.DarkMessageBox.ShowWarning("The version on GitHub is more up to date than this local release. Do you want to update it?", "Information", DarkDialogButton.YesNo) == DialogResult.Yes)
+                {
+                    var url = "https://github.com/EpicMorg/SourceSDK.ENV.Editor/releases/latest";
+                    try
+                    {
+                        Process.Start(url);
+                    }
+                    catch
+                    {
+                        // hack because of this: https://github.com/dotnet/corefx/issues/10361
+                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                        {
+                            url = url.Replace("&", "^&");
+                            Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+                        }
+                        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                        {
+                            Process.Start("xdg-open", url);
+                        }
+                        else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                        {
+                            Process.Start("open", url);
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                }
+            }
+            else if (versionComparison > 0)
+            {
+                DarkUI.Forms.DarkMessageBox.ShowInformation("This local version is greater than the release version on GitHub.", "Information", DarkDialogButton.Ok);
+                //This local version is greater than the release version on GitHub.
+            }
+            else
+            {
+                DarkUI.Forms.DarkMessageBox.ShowInformation("This local Version and the Version on GitHub are equal.", "Information", DarkDialogButton.Ok);
+                //This local Version and the Version on GitHub are equal.
+            }
+        }
+
+        #endregion
 
         #region checks
         private void checkAll()
@@ -145,12 +238,12 @@ namespace SourceSDK.ENV.Editor.UI
                     checkVMod();
                 }
 
-                MessageBox.Show("VMod successfully cleared and Information updated!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DarkUI.Forms.DarkMessageBox.ShowInformation("VMod successfully cleared and Information updated!", "Information", DarkDialogButton.Ok);
                 Cursor.Current = Cursors.Default;
             }
             catch
             {
-                MessageBox.Show("Something went wrong and VMod was not successfully deleted", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DarkUI.Forms.DarkMessageBox.ShowError("Something went wrong and VMod was not successfully deleted", "Error", DarkDialogButton.Ok);
                 Cursor.Current = Cursors.Default;
             }
         }
@@ -171,12 +264,12 @@ namespace SourceSDK.ENV.Editor.UI
                     checkVProject();
                 }
 
-                MessageBox.Show("VProject successfully cleared and Information updated!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DarkUI.Forms.DarkMessageBox.ShowInformation("VProject successfully cleared and Information updated!", "Information", DarkDialogButton.Ok);
                 Cursor.Current = Cursors.Default;
             }
             catch
             {
-                MessageBox.Show("Something went wrong and VProject was not successfully deleted", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DarkUI.Forms.DarkMessageBox.ShowError("Something went wrong and VProject was not successfully deleted", "Error", DarkDialogButton.Ok);
                 Cursor.Current = Cursors.Default;
             }
         }
@@ -197,12 +290,12 @@ namespace SourceSDK.ENV.Editor.UI
                     checkVGame();
                 }
 
-                MessageBox.Show("VGame successfully cleared and Information updated!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DarkUI.Forms.DarkMessageBox.ShowInformation("VGame successfully cleared and Information updated!", "Information", DarkDialogButton.Ok);
                 Cursor.Current = Cursors.Default;
             }
             catch
             {
-                MessageBox.Show("Something went wrong and VGame was not successfully deleted", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DarkUI.Forms.DarkMessageBox.ShowError("Something went wrong and VGame was not successfully deleted", "Error", DarkDialogButton.Ok);
                 Cursor.Current = Cursors.Default;
             }
         }
@@ -223,12 +316,12 @@ namespace SourceSDK.ENV.Editor.UI
                     checkVContent();
                 }
 
-                MessageBox.Show("VContent successfully cleared and Information updated!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DarkUI.Forms.DarkMessageBox.ShowInformation("VContent successfully cleared and Information updated!", "Information", DarkDialogButton.Ok);
                 Cursor.Current = Cursors.Default;
             }
             catch
             {
-                MessageBox.Show("Something went wrong and VContent was not successfully deleted", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DarkUI.Forms.DarkMessageBox.ShowError("Something went wrong and VContent was not successfully deleted", "Error", DarkDialogButton.Ok);
                 Cursor.Current = Cursors.Default;
             }
         }
@@ -249,12 +342,12 @@ namespace SourceSDK.ENV.Editor.UI
                     checkVTools();
                 }
 
-                MessageBox.Show("VTools successfully cleared and Information updated!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DarkUI.Forms.DarkMessageBox.ShowInformation("VTools successfully cleared and Information updated!", "Information", DarkDialogButton.Ok);
                 Cursor.Current = Cursors.Default;
             }
             catch
             {
-                MessageBox.Show("Something went wrong and VTools was not successfully deleted", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DarkUI.Forms.DarkMessageBox.ShowError("Something went wrong and VTools was not successfully deleted", "Error", DarkDialogButton.Ok);
                 Cursor.Current = Cursors.Default;
             }
         }
@@ -278,12 +371,12 @@ namespace SourceSDK.ENV.Editor.UI
                     checkVMod();
                 }
 
-                MessageBox.Show("VMod successfully updated!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DarkUI.Forms.DarkMessageBox.ShowInformation("VMod successfully updated!", "Information", DarkDialogButton.Ok);
                 Cursor.Current = Cursors.Default;
             }
             catch
             {
-                MessageBox.Show("Something went wrong and VMod was not successfully updated", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DarkUI.Forms.DarkMessageBox.ShowError("Something went wrong and VMod was not successfully updated", "Error", DarkDialogButton.Ok);
                 Cursor.Current = Cursors.Default;
             }
         }
@@ -304,12 +397,12 @@ namespace SourceSDK.ENV.Editor.UI
                     checkVProject();
                 }
 
-                MessageBox.Show("VProject successfully updated!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DarkUI.Forms.DarkMessageBox.ShowInformation("VProject successfully updated!", "Information", DarkDialogButton.Ok);
                 Cursor.Current = Cursors.Default;
             }
             catch
             {
-                MessageBox.Show("Something went wrong and VProject was not successfully updated", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DarkUI.Forms.DarkMessageBox.ShowError("Something went wrong and VProject was not successfully updated", "Error", DarkDialogButton.Ok);
                 Cursor.Current = Cursors.Default;
             }
         }
@@ -330,12 +423,12 @@ namespace SourceSDK.ENV.Editor.UI
                     checkVGame();
                 }
 
-                MessageBox.Show("VGame successfully cleared updated!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DarkUI.Forms.DarkMessageBox.ShowInformation("VGame successfully cleared updated!", "Information", DarkDialogButton.Ok);
                 Cursor.Current = Cursors.Default;
             }
             catch
             {
-                MessageBox.Show("Something went wrong and VGame was not successfully updated", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DarkUI.Forms.DarkMessageBox.ShowError("Something went wrong and VGame was not successfully updated", "Error", DarkDialogButton.Ok);
                 Cursor.Current = Cursors.Default;
             }
         }
@@ -356,12 +449,12 @@ namespace SourceSDK.ENV.Editor.UI
                     checkVContent();
                 }
 
-                MessageBox.Show("VContent successfully updated!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DarkUI.Forms.DarkMessageBox.ShowInformation("VContent successfully updated!", "Information", DarkDialogButton.Ok);
                 Cursor.Current = Cursors.Default;
             }
             catch
             {
-                MessageBox.Show("Something went wrong and VContent was not successfully updated", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DarkUI.Forms.DarkMessageBox.ShowError("Something went wrong and VContent was not successfully updated", "Error", DarkDialogButton.Ok);
                 Cursor.Current = Cursors.Default;
             }
         }
@@ -382,12 +475,12 @@ namespace SourceSDK.ENV.Editor.UI
                     checkVTools();
                 }
 
-                MessageBox.Show("VTools successfully cleared updated!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DarkUI.Forms.DarkMessageBox.ShowInformation("VTools successfully cleared updated!", "Information", DarkDialogButton.Ok);
                 Cursor.Current = Cursors.Default;
             }
             catch
             {
-                MessageBox.Show("Something went wrong and VTools was not successfully updated", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DarkUI.Forms.DarkMessageBox.ShowError("Something went wrong and VTools was not successfully updated", "Error", DarkDialogButton.Ok);
                 Cursor.Current = Cursors.Default;
             }
         }
@@ -396,14 +489,14 @@ namespace SourceSDK.ENV.Editor.UI
         #region btn-reset
         private void resetAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+            if (DarkUI.Forms.DarkMessageBox.ShowWarning("Are you sure?", "Warning", DarkDialogButton.YesNo) == DialogResult.Yes)
             {
                 resetAll();
             }
         }
         private void buttonResetVMod_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+            if (DarkUI.Forms.DarkMessageBox.ShowWarning("Are you sure?", "Warning", DarkDialogButton.YesNo) == DialogResult.Yes)
             {
                 resetVMod();
             }
@@ -412,7 +505,7 @@ namespace SourceSDK.ENV.Editor.UI
 
         private void buttonResetVProject_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+            if (DarkUI.Forms.DarkMessageBox.ShowWarning("Are you sure?", "Warning", DarkDialogButton.YesNo) == DialogResult.Yes)
             {
                 resetVProject();
             }
@@ -420,7 +513,7 @@ namespace SourceSDK.ENV.Editor.UI
 
         private void buttonResetVGame_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+            if (DarkUI.Forms.DarkMessageBox.ShowWarning("Are you sure?", "Warning", DarkDialogButton.YesNo) == DialogResult.Yes)
             {
                 resetVGame();
             }
@@ -428,7 +521,7 @@ namespace SourceSDK.ENV.Editor.UI
 
         private void buttonResetVContent_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+            if (DarkUI.Forms.DarkMessageBox.ShowWarning("Are you sure?", "Warning", DarkDialogButton.YesNo) == DialogResult.Yes)
             {
                 resetVContent();
             }
@@ -436,7 +529,7 @@ namespace SourceSDK.ENV.Editor.UI
 
         private void buttonResetVTools_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+            if (DarkUI.Forms.DarkMessageBox.ShowWarning("Are you sure?", "Warning", DarkDialogButton.YesNo) == DialogResult.Yes)
             {
                 resetVTools();
             }
@@ -480,7 +573,7 @@ namespace SourceSDK.ENV.Editor.UI
         #region btn-apply
         private void buttonApplyVMod_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+            if (DarkUI.Forms.DarkMessageBox.ShowWarning("Are you sure?", "Warning", DarkDialogButton.YesNo) == DialogResult.Yes)
             {
                 applyVMod();
             }
@@ -488,7 +581,7 @@ namespace SourceSDK.ENV.Editor.UI
 
         private void buttonApplyVProject_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+            if (DarkUI.Forms.DarkMessageBox.ShowWarning("Are you sure?", "Warning", DarkDialogButton.YesNo) == DialogResult.Yes)
             {
                 applyVProject();
             }
@@ -496,7 +589,7 @@ namespace SourceSDK.ENV.Editor.UI
 
         private void buttonApplyVGame_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+            if (DarkUI.Forms.DarkMessageBox.ShowWarning("Are you sure?", "Warning", DarkDialogButton.YesNo) == DialogResult.Yes)
             {
                 applyVGame();
             }
@@ -504,7 +597,7 @@ namespace SourceSDK.ENV.Editor.UI
 
         private void buttonApplyVContent_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+            if (DarkUI.Forms.DarkMessageBox.ShowWarning("Are you sure?", "Warning", DarkDialogButton.YesNo) == DialogResult.Yes)
             {
                 applyVContent();
             }
@@ -512,12 +605,17 @@ namespace SourceSDK.ENV.Editor.UI
 
         private void buttonApplyVTools_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+            if (DarkUI.Forms.DarkMessageBox.ShowWarning("Are you sure?", "Warning", DarkDialogButton.YesNo) == DialogResult.Yes)
             {
                 applyVTools();
             }
         }
         #endregion
 
+        private void toolStripStatusLabelUpdateStatus_Click(object sender, EventArgs e)
+        {
+            try { CheckGitHubNewerVersion(); } catch { }
+            
+        }
     }
 }
