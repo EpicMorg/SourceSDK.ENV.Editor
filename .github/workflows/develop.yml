@@ -33,6 +33,9 @@ jobs:
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1
 
+    - name: Add nuget private repo
+      run: nuget add source --username  ${{ secrets.GITHUB_USERNAME }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/colhountech/index.json"
+
     - name: Restore NuGet Packages
       run: nuget restore src/SourceSDK.ENV.Editor.sln
  
