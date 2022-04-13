@@ -6,11 +6,12 @@ on:
 
 env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_NOLOGO: true
 
 jobs:
   build:
     runs-on: windows-latest
-  
     steps:
 
     - name: Set the value
@@ -24,23 +25,20 @@ jobs:
         lfs: true
         submodules: true
 
-    - name: Add msbuild to PATH
-      uses: microsoft/setup-msbuild@v1.1
-      with: 
-        vs-prerelease: true
-        msbuild-architecture: x86
-
-    - name: Setup NuGet
-      uses: NuGet/setup-nuget@v1
-
-    - name: Add nuget private repo
-      run: nuget add source --username  ${{ secrets.GITHUB_USERNAME }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/colhountech/index.json"
-
-    - name: Restore NuGet Packages
-      run: nuget restore src/SourceSDK.ENV.Editor.sln
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: '6.0.x'
+        include-prerelease: true
+        source-url: https://nuget.pkg.github.com/colhountech/index.json
+      env:
+        NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
  
+    - name: Restore NuGet Packages
+      run: dotnet restore src/SourceSDK.ENV.Editor.csproj
+
     - name: Build Debug
-      run: msbuild src/SourceSDK.ENV.Editor.sln /p:Configuration=Debug
+      run: dotnet build src/SourceSDK.ENV.Editor.sln --configuration Debug --force --no-incremental  --nologo 
 
     - name: Build Release
-      run: msbuild src/SourceSDK.ENV.Editor.sln /p:Configuration=Release
+      run: dotnet build src/SourceSDK.ENV.Editor.sln --configuration Release --force --no-incremental  --nologo 
